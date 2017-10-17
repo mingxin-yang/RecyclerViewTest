@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -24,7 +25,16 @@ public class FruitAdapt extends RecyclerView.Adapter<FruitAdapt.ViewHoder> {
     public ViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fruit_item,parent,false);
-        ViewHoder hoder=new ViewHoder(view);
+        final ViewHoder hoder=new ViewHoder(view);
+        hoder.fruitView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position=hoder.getAdapterPosition();
+                Fruit fruit=mFruitList.get(position);
+                Toast.makeText(v.getContext(),"you click view"+fruit.getName(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
         return hoder;
     }
 
@@ -43,9 +53,11 @@ public class FruitAdapt extends RecyclerView.Adapter<FruitAdapt.ViewHoder> {
     static class ViewHoder extends RecyclerView.ViewHolder{
         ImageView fruitImage;
         TextView fruitName;
+        View fruitView;
 
         public ViewHoder(View itemView) {
             super(itemView);
+            fruitView=itemView;
             fruitImage=(ImageView)itemView.findViewById(R.id.fruit_image);
             fruitName=(TextView) itemView.findViewById(R.id.fruit_name);
         }
